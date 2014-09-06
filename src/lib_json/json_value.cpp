@@ -166,7 +166,7 @@ void Value::CommentInfo::setComment(const char *text) {
 // Notes: index_ indicates if the string was allocated when
 // a string is stored.
 
-Value::CZString::CZString(ArrayIndex index) : cstr_(0), index_(index) {}
+Value::CZString::CZString(ArrayIndex _index) : cstr_(0), index_(_index) {}
 
 Value::CZString::CZString(const char *cstr, DuplicationPolicy allocate)
     : cstr_(allocate == duplicate ? duplicateStringValue(cstr) : cstr),
@@ -228,15 +228,15 @@ bool Value::CZString::isStaticString() const { return index_ == noDuplication; }
  * memset( this, 0, sizeof(Value) )
  * This optimization is used in ValueInternalMap fast allocator.
  */
-Value::Value(ValueType type)
-    : type_(type), allocated_(false)
+Value::Value(ValueType _type)
+    : type_(_type), allocated_(false)
 #ifdef JSON_VALUE_USE_INTERNAL_MAP
       ,
       itemIsUsed_(0)
 #endif
       ,
       comments_(0), start_(0), limit_(0) {
-  switch (type) {
+  switch (_type) {
   case nullValue:
     break;
   case intValue:
