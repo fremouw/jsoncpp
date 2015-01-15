@@ -226,9 +226,9 @@ bool Value::CZString::isStaticString() const { return index_ == noDuplication; }
  * memset( this, 0, sizeof(Value) )
  * This optimization is used in ValueInternalMap fast allocator.
  */
-Value::Value(ValueType type) {
-  initBasic(type);
-  switch (type) {
+Value::Value(ValueType _type) {
+  initBasic(_type);
+  switch (_type) {
   case nullValue:
     break;
   case intValue:
@@ -893,8 +893,8 @@ Value& Value::operator[](const char* key) {
   return resolveReference(key, false);
 }
 
-void Value::initBasic(ValueType type, bool allocated) {
-  type_ = type;
+void Value::initBasic(ValueType _type, bool allocated) {
+  type_ = _type;
   allocated_ = allocated;
 #ifdef JSON_VALUE_USE_INTERNAL_MAP
   itemIsUsed_ = 0;
