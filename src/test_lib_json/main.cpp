@@ -85,23 +85,23 @@ struct ValueTest : JsonTest::TestCase {
     bool isNumeric_;
   };
 
-  void checkConstMemberCount(const Json::Value &value,
+  void checkConstMemberCount(const Json::Value& value,
                              unsigned int expectedCount);
 
-  void checkMemberCount(Json::Value &value, unsigned int expectedCount);
+  void checkMemberCount(Json::Value& value, unsigned int expectedCount);
 
-  void checkIs(const Json::Value &value, const IsCheck &check);
+  void checkIs(const Json::Value& value, const IsCheck& check);
 
-  void checkIsLess(const Json::Value &x, const Json::Value &y);
+  void checkIsLess(const Json::Value& x, const Json::Value& y);
 
-  void checkIsEqual(const Json::Value &x, const Json::Value &y);
+  void checkIsEqual(const Json::Value& x, const Json::Value& y);
 
   /// Normalize the representation of floating-point number by stripped leading
   /// 0 in exponent.
-  static std::string normalizeFloatingPointStr(const std::string &s);
+  static std::string normalizeFloatingPointStr(const std::string& s);
 };
 
-std::string ValueTest::normalizeFloatingPointStr(const std::string &s) {
+std::string ValueTest::normalizeFloatingPointStr(const std::string& s) {
   std::string::size_type index = s.find_last_of("eE");
   if (index != std::string::npos) {
     std::string::size_type hasSign =
@@ -187,7 +187,7 @@ JSONTEST_FIXTURE(ValueTest, objects) {
   JSONTEST_ASSERT(!emptyObject_.isConvertibleTo(Json::stringValue));
 
   // Access through const reference
-  const Json::Value &constObject = object1_;
+  const Json::Value& constObject = object1_;
 
   JSONTEST_ASSERT_EQUAL(Json::Value(1234), constObject["id"]);
   JSONTEST_ASSERT_EQUAL(Json::Value(), constObject["unknown id"]);
@@ -229,7 +229,7 @@ JSONTEST_FIXTURE(ValueTest, arrays) {
   JSONTEST_ASSERT(!emptyArray_.isConvertibleTo(Json::stringValue));
 
   // Access through const reference
-  const Json::Value &constArray = array1_;
+  const Json::Value& constArray = array1_;
   JSONTEST_ASSERT_EQUAL(Json::Value(1234), constArray[index0]);
   JSONTEST_ASSERT_EQUAL(Json::Value(1234), constArray[0]);
 
@@ -926,7 +926,7 @@ JSONTEST_FIXTURE(ValueTest, integers) {
   JSONTEST_ASSERT_EQUAL(float(uint64ToDouble(Json::UInt64(1) << 63)),
                         val.asFloat());
   JSONTEST_ASSERT_EQUAL(true, val.asBool());
-  JSONTEST_ASSERT_STRING_EQUAL("9.223372036854776e+18",
+  JSONTEST_ASSERT_STRING_EQUAL("9.2233720368547758e+18",
                                normalizeFloatingPointStr(val.asString()));
 
   // int64 min
@@ -974,7 +974,7 @@ JSONTEST_FIXTURE(ValueTest, integers) {
   JSONTEST_ASSERT_EQUAL(-9223372036854775808.0, val.asDouble());
   JSONTEST_ASSERT_EQUAL(-9223372036854775808.0, val.asFloat());
   JSONTEST_ASSERT_EQUAL(true, val.asBool());
-  JSONTEST_ASSERT_STRING_EQUAL("-9.223372036854776e+18",
+  JSONTEST_ASSERT_STRING_EQUAL("-9.2233720368547758e+18",
                                normalizeFloatingPointStr(val.asString()));
 
   // 10^19
@@ -1065,7 +1065,7 @@ JSONTEST_FIXTURE(ValueTest, integers) {
   JSONTEST_ASSERT_EQUAL(18446744073709551616.0, val.asDouble());
   JSONTEST_ASSERT_EQUAL(18446744073709551616.0, val.asFloat());
   JSONTEST_ASSERT_EQUAL(true, val.asBool());
-  JSONTEST_ASSERT_STRING_EQUAL("1.844674407370955e+19",
+  JSONTEST_ASSERT_STRING_EQUAL("1.8446744073709552e+19",
                                normalizeFloatingPointStr(val.asString()));
 #endif
 }
@@ -1217,7 +1217,7 @@ JSONTEST_FIXTURE(ValueTest, nonIntegers) {
                         normalizeFloatingPointStr(val.asString()));
 
   val = Json::Value(1.2345678901234);
-  JSONTEST_ASSERT_STRING_EQUAL("1.2345678901234",
+  JSONTEST_ASSERT_STRING_EQUAL("1.2345678901234001",
                                normalizeFloatingPointStr(val.asString()));
 
   // A 16-digit floating point number.
@@ -1239,7 +1239,7 @@ JSONTEST_FIXTURE(ValueTest, nonIntegers) {
                                normalizeFloatingPointStr(val.asString()));
 }
 
-void ValueTest::checkConstMemberCount(const Json::Value &value,
+void ValueTest::checkConstMemberCount(const Json::Value& value,
                                       unsigned int expectedCount) {
   unsigned int count = 0;
   Json::Value::const_iterator itEnd = value.end();
@@ -1249,7 +1249,7 @@ void ValueTest::checkConstMemberCount(const Json::Value &value,
   JSONTEST_ASSERT_EQUAL(expectedCount, count) << "Json::Value::const_iterator";
 }
 
-void ValueTest::checkMemberCount(Json::Value &value,
+void ValueTest::checkMemberCount(Json::Value& value,
                                  unsigned int expectedCount) {
   JSONTEST_ASSERT_EQUAL(expectedCount, value.size());
 
@@ -1269,7 +1269,7 @@ ValueTest::IsCheck::IsCheck()
       isUInt64_(false), isIntegral_(false), isDouble_(false),
       isNumeric_(false) {}
 
-void ValueTest::checkIs(const Json::Value &value, const IsCheck &check) {
+void ValueTest::checkIs(const Json::Value& value, const IsCheck& check) {
   JSONTEST_ASSERT_EQUAL(check.isObject_, value.isObject());
   JSONTEST_ASSERT_EQUAL(check.isArray_, value.isArray());
   JSONTEST_ASSERT_EQUAL(check.isBool_, value.isBool());
@@ -1384,7 +1384,7 @@ JSONTEST_FIXTURE(ValueTest, compareType) {
                                    Json::Value(Json::objectValue)));
 }
 
-void ValueTest::checkIsLess(const Json::Value &x, const Json::Value &y) {
+void ValueTest::checkIsLess(const Json::Value& x, const Json::Value& y) {
   JSONTEST_ASSERT(x < y);
   JSONTEST_ASSERT(y > x);
   JSONTEST_ASSERT(x <= y);
@@ -1399,7 +1399,7 @@ void ValueTest::checkIsLess(const Json::Value &x, const Json::Value &y) {
   JSONTEST_ASSERT(y.compare(x) >= 0);
 }
 
-void ValueTest::checkIsEqual(const Json::Value &x, const Json::Value &y) {
+void ValueTest::checkIsEqual(const Json::Value& x, const Json::Value& y) {
   JSONTEST_ASSERT(x == y);
   JSONTEST_ASSERT(y == x);
   JSONTEST_ASSERT(x <= y);
@@ -1601,7 +1601,7 @@ JSONTEST_FIXTURE(ReaderTest, parseWithDetailError) {
   JSONTEST_ASSERT(errors.at(0).message == "Bad escape sequence in string");
 }
 
-int main(int argc, const char *argv[]) {
+int main(int argc, const char* argv[]) {
   JsonTest::Runner runner;
   JSONTEST_REGISTER_FIXTURE(runner, ValueTest, checkNormalizeFloatingPointStr);
   JSONTEST_REGISTER_FIXTURE(runner, ValueTest, memberCount);
@@ -1635,4 +1635,3 @@ int main(int argc, const char *argv[]) {
 
   return runner.runCommandLine(argc, argv);
 }
-// vim: et ts=2 sts=2 sw=2 tw=0
